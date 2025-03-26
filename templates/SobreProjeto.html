@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sobre o Projeto - Site IA</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous" />
+    <style>
+        .carousel-item img { border-radius: 8px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); }
+        .navbar { background-color: #007BFF; }
+        .navbar-brand, .nav-link { color: white !important; }
+        .navbar-toggler-icon { background-color: white; }
+        footer { background-color: #f8f9fa; padding: 30px 0; }
+        footer .table th, footer .table td { vertical-align: middle; }
+        footer .table { border-top: 2px solid #ddd; }
+        /* Estilo do bloco de perfil */
+        .profile-card { background-color: #fff; border-radius: 10px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); padding: 20px; margin: 10px 0; text-align: center; }
+        .profile-card img { border-radius: 50%; width: 120px; height: 120px; object-fit: cover; margin-bottom: 15px; }
+        .profile-card h5 { font-size: 1.25rem; font-weight: bold; color: #333; }
+        .profile-card p { font-size: 1rem; color: #555; }
+        .profile-card .contact-info { margin-top: 10px; }
+        .profile-card .contact-info a { text-decoration: none; color: #007BFF; }
+        .profile-card .contact-info a:hover { text-decoration: underline; }
+        /* Estilo do container de estudantes */
+        .students-container { display: flex; flex-wrap: wrap; justify-content: center; }
+        .students-container .profile-card { width: 250px; margin: 15px; }
+        /* Alinhamento de itens na navbar */
+        .nav-item .navbar-brand, .nav-item .nav-link {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%; /* Definindo largura 100% para ambos */
+        }
+        /* Estilo para "Sobre o Projeto" */
+        .nav-item .nav-link.sobre-projeto {
+            background-color: #0056b3;
+            color: #ffffff;
+            font-weight: bold;
+            padding: 5px 10px;
+            border-radius: 5px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        .bottom-border {
+            border-top: 3px solid #007BFF;
+            margin-top: 3rem;
+            padding: 1rem 0;
+        }
+        .sprint-item {
+            background-color: #f8f9fa;
+            border-radius: 5px;
+            padding: 10px 20px;
+            margin: 5px 0;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .accordion-button {
+            background-color: #007BFF;
+            color: white;
+            font-weight: bold;
+            border-radius: 5px;
+        }
+        .accordion-button:focus {
+            box-shadow: none;
+        }
+        .accordion-item {
+            margin: 5px 0;
+        }
+    </style>
+</head>
+<body>
+<header>
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="index.html">Página Inicial</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <span class="nav-link sobre-projeto" style="cursor: default;">Sobre o Projeto</span>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="SobreGrupo.html">Sobre o Grupo</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</header>
+
+<div class="container mt-5 pt-5">
+    <p class="text-center fs-3 mb-4">Sobre o Projeto: Plataforma de Ensino de IA</p>
+    <div class="row">
+        <div class="col-md-12">
+            <h4 class="mt-4">Objetivo do Projeto</h4>
+            <p>
+                O projeto visa criar uma plataforma online que ensina os principais conceitos de Inteligência Artificial de forma acessível e intuitiva. O objetivo é fornecer uma introdução ao campo da IA para leigos, abordando tópicos como aprendizado de máquina, redes neurais e processamento de linguagem natural (NLP), de forma simples e interativa.
+            </p>
+        </div>
+    </div>
+
+    <div class="row mt-4">
+        <div class="col-md-12">
+            <h4>Desafios</h4>
+            <p>
+                Durante o desenvolvimento do projeto, enfrentamos desafios como a integração de diferentes tipos de IA, a criação de uma interface interativa e o tratamento de grandes volumes de dados em tempo real. Superar esses obstáculos tem sido uma oportunidade de aprendizagem constante para a equipe.
+            </p>
+        </div>
+    </div>
+
+    <div class="row mt-4">
+        <div class="col-md-12">
+            <h4>Tecnologias Utilizadas</h4>
+            <p>
+                O projeto utiliza uma variedade de tecnologias para garantir a eficiência e a interatividade da plataforma:
+            <ul>
+                <li><strong>IDEs:</strong> WebStrom, Visual Studio Code, PyCharm e Spyder</li>
+                <li><strong>Frontend:</strong> HTML, CSS, Bootstrap, JavaScript</li>
+                <li><strong>Backend:</strong> Python (Flask), TensorFlow/Keras e PyTorch</li>
+                <li><strong>Testes:</strong> PostMan, pytest, Flask-Testing, Mocking e Stubs , Locust e Lighthouse</li>
+            </ul>
+            </p>
+        </div>
+    </div>
+
+    <div class="row mt-4">
+        <div class="col-md-12">
+            <h4>Organização do Grupo (Scrum)</h4>
+            <p>
+                O grupo segue a metodologia Scrum para garantir uma gestão ágil do projeto, com sprints organizados para o desenvolvimento de cada funcionalidade. Cada membro da equipe é responsável por tarefas específicas, com reuniões semanais para alinhamento e revisão.
+            </p>
+        </div>
+    </div>
+
+    <div class="row mt-4">
+        <div class="col-md-12">
+            <h4>Sprints</h4>
+            <div class="accordion" id="sprintsAccordion">
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="headingSprint1">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSprint1" aria-expanded="true" aria-controls="collapseSprint1">
+                            Sprint 1
+                        </button>
+                    </h2>
+                    <div id="collapseSprint1" class="accordion-collapse collapse" aria-labelledby="headingSprint1" data-bs-parent="#sprintsAccordion">
+                        <div class="accordion-body">
+                            Desenvolvimento da página inicial e implementação da rede neural simples.
+                        </div>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="headingSprint2">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSprint2" aria-expanded="true" aria-controls="collapseSprint2">
+                            Sprint 2
+                        </button>
+                    </h2>
+                    <div id="collapseSprint2" class="accordion-collapse collapse" aria-labelledby="headingSprint2" data-bs-parent="#sprintsAccordion">
+                        <div class="accordion-body">
+                            Implementação da IA de NLP (Processamento de Linguagem Natural).
+                        </div>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="headingSprint3">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSprint3" aria-expanded="true" aria-controls="collapseSprint3">
+                            Sprint 3
+                        </button>
+                    </h2>
+                    <div id="collapseSprint3" class="accordion-collapse collapse" aria-labelledby="headingSprint3" data-bs-parent="#sprintsAccordion">
+                        <div class="accordion-body">
+                            Implementação da IA de OCR (Reconhecimento Óptico de Caracteres).
+                        </div>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="headingSprint4">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSprint4" aria-expanded="true" aria-controls="collapseSprint4">
+                            Sprint 4
+                        </button>
+                    </h2>
+                    <div id="collapseSprint4" class="accordion-collapse collapse" aria-labelledby="headingSprint4" data-bs-parent="#sprintsAccordion">
+                        <div class="accordion-body">
+                            Implementação da IA de MLP (Perceptron Multicamadas) para processamento de sons.
+                        </div>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="headingSprint5">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSprint5" aria-expanded="true" aria-controls="collapseSprint5">
+                            Sprint 5
+                        </button>
+                    </h2>
+                    <div id="collapseSprint5" class="accordion-collapse collapse" aria-labelledby="headingSprint5" data-bs-parent="#sprintsAccordion">
+                        <div class="accordion-body">
+                            Implementação da IA de Transformers para tarefas complexas de aprendizado.
+                        </div>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="headingSprint6">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSprint6" aria-expanded="true" aria-controls="collapseSprint6">
+                            Sprint 6
+                        </button>
+                    </h2>
+                    <div id="collapseSprint6" class="accordion-collapse collapse" aria-labelledby="headingSprint6" data-bs-parent="#sprintsAccordion">
+                        <div class="accordion-body">
+                            Desenvolvimento da página de ajuda e informações do sistema.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="bottom-border text-center">
+    <p>© 2025 - Informações sobre o Trabalho | Todos os direitos reservados</p>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+</body>
+</html>
