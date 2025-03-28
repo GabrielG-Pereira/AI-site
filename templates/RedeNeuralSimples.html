@@ -1,47 +1,213 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Redes Neurais Simples</title>
+  <meta name="description" content="Sistema completo de análise de comportamento em streaming e demonstração de redes neurais simples">
+  <meta name="keywords" content="redes neurais, inteligência artificial, machine learning, análise de comportamento, streaming">
+  <meta name="author" content="Seu Nome ou Organização">
+  <title>Sistema de IA - Análise e Demonstração</title>
+
+  <!-- Open Graph / Social Media -->
+  <meta property="og:title" content="Sistema de IA - Análise e Demonstração">
+  <meta property="og:description" content="Explore redes neurais simples e análise de comportamento em streaming com IA">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://seusite.com">
+
+  <!-- Pré-carregamento de recursos críticos -->
+  <link rel="preload" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" as="style">
+  <link rel="preload" href="https://cdn.jsdelivr.net/npm/chart.js" as="script">
+  <link rel="preconnect" href="https://cdn.jsdelivr.net">
+
+  <!-- Bootstrap CSS -->
   <link
           href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
           rel="stylesheet"
           integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
           crossorigin="anonymous"
   />
+
+  <!-- Favicon -->
+  <link rel="icon" href="favicon.ico" type="image/x-icon">
+
   <style>
-    .navbar {
-      background-color: #007BFF;
+    :root {
+      --primary-color: #007BFF;
+      --secondary-color: #0056b3;
+      --darker-blue: #003d7a;
+      --text-color: #333;
+      --light-bg: #f8f9fa;
+      --success-color: #28a745;
+      --danger-color: #dc3545;
+      --info-color: #17a2b8;
     }
-    .navbar-brand, .nav-link {
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      line-height: 1.6;
+      color: var(--text-color);
+      padding-top: 56px;
+    }
+
+    /* Estilos para os cards mais escuros */
+    .darker-card-header {
+      background-color: var(--darker-blue) !important;
       color: white !important;
     }
-    .navbar-toggler-icon {
-      background-color: white;
+
+    /* Estilos para a seção de análise de comportamento */
+    .behavior-input {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 1rem;
     }
+
+    .input-card {
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .input-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+
+    .input-card.active {
+      border-color: var(--primary-color);
+      background-color: rgba(0, 123, 255, 0.05);
+    }
+
+    .explanation-item {
+      padding: 0.5rem;
+      margin: 0.25rem 0;
+      border-radius: 4px;
+    }
+
+    .positive-impact {
+      background-color: rgba(40, 167, 69, 0.1);
+      border-left: 3px solid var(--success-color);
+    }
+
+    .negative-impact {
+      background-color: rgba(220, 53, 69, 0.1);
+      border-left: 3px solid var(--danger-color);
+    }
+
+    .feature-name {
+      font-weight: bold;
+    }
+
+    /* Estilos para a seção de demonstração de rede neural */
     .interactive-section {
       margin-top: 2rem;
+      padding: 1.5rem;
+      background-color: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     }
+
     .chart-container {
       width: 100%;
-      max-width: 600px;
-      margin: 0 auto;
+      max-width: 800px;
+      margin: 2rem auto;
+      min-height: 300px;
     }
 
     .bottom-border {
-      border-top: 3px solid #007BFF;
+      border-top: 3px solid var(--primary-color);
       margin-top: 3rem;
-      padding: 1rem 0;
+      padding: 1.5rem 0;
+      background-color: var(--light-bg);
+    }
+
+    code {
+      background-color: rgba(0, 123, 255, 0.1);
+      padding: 0.2rem 0.4rem;
+      border-radius: 4px;
+      color: var(--secondary-color);
+      font-family: 'Courier New', Courier, monospace;
+    }
+
+    /* Navbar e navegação */
+    .navbar {
+      background-color: var(--primary-color);
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      padding: 0.5rem 1rem;
+    }
+
+    .navbar-brand, .nav-link {
+      color: white !important;
+      transition: opacity 0.3s ease;
+    }
+
+    .navbar-brand:hover, .nav-link:hover {
+      opacity: 0.9;
+    }
+
+    .navbar-toggler-icon {
+      background-color: white;
+    }
+
+    /* Acessibilidade */
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border-width: 0;
+    }
+
+    /* Abas */
+    .nav-tabs .nav-link {
+      color: var(--primary-color);
+    }
+
+    .nav-tabs .nav-link.active {
+      font-weight: bold;
+    }
+
+    /* Estilo para "Análise de Comportamento" igual ao "Sobre o Grupo" */
+    .nav-item .nav-link.analise-comportamento {
+      background-color: #0056b3;
+      color: #ffffff !important;
+      font-weight: bold;
+      padding: 5px 10px;
+      border-radius: 5px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    /* Responsividade */
+    @media (max-width: 768px) {
+      .chart-container, .behavior-input {
+        max-width: 100%;
+      }
+
+      .interactive-section {
+        padding: 1rem;
+      }
+    }
+
+    @media (max-width: 576px) {
+      body {
+        padding-top: 48px;
+      }
+
+      .navbar-brand {
+        font-size: 1rem;
+      }
     }
   </style>
 </head>
-<body>
 
-<header>
-  <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+<body itemscope itemtype="https://schema.org/WebPage">
+<header role="banner">
+  <nav class="navbar navbar-expand-lg navbar-dark fixed-top" role="navigation">
     <div class="container-fluid">
-      <a class="navbar-brand" href="index.html">Página Inicial</a>
+      <a class="navbar-brand" href="index.html" itemprop="url">Página Principal</a>
       <button
               class="navbar-toggler"
               type="button"
@@ -49,11 +215,19 @@
               data-bs-target="#navbarNav"
               aria-controls="navbarNav"
               aria-expanded="false"
-              aria-label="Toggle navigation"
+              aria-label="Alternar navegação"
       >
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav me-auto">
+          <li class="nav-item">
+            <span class="nav-link analise-comportamento" style="cursor: default;">Análise de Comportamento</span>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="PrediçãoRedeNeural.html">Demonstração de Rede Neural com Predição</a>
+          </li>
+        </ul>
         <ul class="navbar-nav ms-auto">
           <li class="nav-item dropdown">
             <a
@@ -62,34 +236,17 @@
                     role="button"
                     data-bs-toggle="dropdown"
                     aria-expanded="false"
+                    aria-haspopup="true"
             >
               Sobre nós
             </a>
-            <ul class="dropdown-menu">
-              <li><a class="dropdown-item" href="SobreProjeto.html">Projeto</a></li>
-              <li><a class="dropdown-item" href="SobreGrupo.html">Grupo</a></li>
-            </ul>
-          </li>
-          <li class="nav-item dropdown">
-            <a
-                    class="nav-link dropdown-toggle"
-                    href="#"
-                    role="button"
-                    data-bs-toggle="dropdown"
-                    aria-expanded="false"
-            >
-              Tipos de IA
-            </a>
-            <ul class="dropdown-menu">
-              <li><a class="dropdown-item" href="RedeNeuralSimples.html">Rede Neural Simples</a></li>
-              <li><a class="dropdown-item" href="#">NLP</a></li>
-              <li><a class="dropdown-item" href="#">OCR</a></li>
-              <li><a class="dropdown-item" href="#">MLP</a></li>
-              <li><a class="dropdown-item" href="#">Transformers</a></li>
+            <ul class="dropdown-menu" role="menu">
+              <li><a class="dropdown-item" href="SobreProjeto.html" role="menuitem">Projeto</a></li>
+              <li><a class="dropdown-item" href="SobreGrupo.html" role="menuitem">Grupo</a></li>
             </ul>
           </li>
           <li class="nav-item">
-            <a class="nav-link active" href="#">Precisa de ajuda?</a>
+            <a class="nav-link" href="#" aria-current="page">Precisa de ajuda?</a>
           </li>
         </ul>
       </div>
@@ -97,104 +254,444 @@
   </nav>
 </header>
 
-<div class="container mt-5 pt-5">
-  <h2 class="text-center">Redes Neurais Simples</h2>
-  <p class="text-center mb-4">Explore o funcionamento básico de redes neurais simples de forma interativa.</p>
+<main role="main" class="container mt-4 pt-3">
+  <div class="tab-content" id="myTabContent">
+    <!-- Aba de Análise de Comportamento -->
+    <div class="tab-pane fade show active" id="behavior-analysis" role="tabpanel" aria-labelledby="behavior-tab">
+      <h1 class="text-center sr-only">Análise de Comportamento com IA</h1>
+      <h2 class="text-center" aria-hidden="true">Análise de Comportamento com Rede Neural</h2>
 
-  <div class="interactive-section">
-    <h4 class="text-center">Teste uma Rede Neural Simples</h4>
-    <p class="text-center">Insira valores para ver como uma rede neural realiza predições básicas.</p>
-    <div class="row justify-content-center">
-      <div class="col-md-6">
-        <form id="neuralForm">
-          <div class="mb-3">
-            <label for="inputValue" class="form-label">Valor de Entrada</label>
-            <input type="number" class="form-control" id="inputValue" placeholder="Digite um número" required />
+      <div class="row">
+        <div class="col-md-10 mx-auto">
+          <div class="card mb-4">
+            <div class="card-header darker-card-header">
+              <h4 class="mb-0">Comportamentos do Usuário</h4>
+            </div>
+            <div class="card-body behavior-input" id="behaviorInputs">
+              <!-- Comportamentos serão inseridos via JavaScript -->
+            </div>
           </div>
-          <button type="submit" class="btn btn-primary w-100">Calcular</button>
-        </form>
-        <div class="mt-4">
-          <h5 class="text-center">Resultado:</h5>
-          <p id="outputResult" class="text-center">--</p>
+
+          <div class="text-center mb-4">
+            <button class="btn btn-primary btn-lg" id="analyzeBtn">Analisar Comportamento</button>
+          </div>
+
+          <div class="card mb-4 d-none" id="resultsCard">
+            <div class="card-header darker-card-header">
+              <h4 class="mb-0">Resultados da Análise</h4>
+            </div>
+            <div class="card-body">
+              <div class="row" id="predictionResults">
+                <!-- Resultados serão inseridos aqui -->
+              </div>
+            </div>
+          </div>
+
+          <div class="card mb-4 d-none" id="explanationCard">
+            <div class="card-header darker-card-header">
+              <h4 class="mb-0">Explicação da Rede Neural</h4>
+            </div>
+            <div class="card-body" id="modelExplanation">
+              <!-- Explicações serão inseridas aqui -->
+            </div>
+          </div>
         </div>
       </div>
     </div>
 
-    <div class="chart-container mt-5">
-      <canvas id="resultChart"></canvas>
-    </div>
+    <!-- Aba de Demonstração de Rede Neural -->
+    <div class="tab-pane fade" id="neural-demo" role="tabpanel" aria-labelledby="neural-tab">
+      <h1 class="text-center sr-only">Demonstração de Rede Neural Simples</h1>
+      <h2 class="text-center" aria-hidden="true">Demonstração de Rede Neural Simples</h2>
+      <p class="text-center mb-4">Explore o funcionamento básico de redes neurais simples de forma interativa.</p>
 
-    <div class="mt-5">
-      <h5>Como funciona essa predição?</h5>
-      <p>
-        A predição apresentada neste exemplo é baseada em uma função linear simples: <code>y = 2x + 1</code>, onde <code>x</code> é o valor de entrada fornecido pelo usuário e <code>y</code> é o resultado calculado.
-        Essa função simula um modelo básico de rede neural com uma única camada e semativação complexa, apenas para fins educacionais. Redes neurais reais utilizam múltiplas camadas, ativações não lineares e ajustes de pesos através de algoritmos de aprendizado.
-      </p>
-      <p>
-        Essa abordagem ajuda a demonstrar o conceito fundamental de como os dados de entrada são transformados em saídas através de operações matemáticas. Experimente diferentes valores para observar a relação linear da predição!
-      </p>
+      <section class="interactive-section" itemscope itemtype="https://schema.org/HowTo">
+        <h3 class="text-center" itemprop="name">Teste uma Rede Neural Simples</h3>
+        <p class="text-center" itemprop="description">Insira valores para ver como uma rede neural realiza predições básicas.</p>
+
+        <div class="row justify-content-center">
+          <div class="col-md-8 col-lg-6">
+            <form id="neuralForm" itemprop="steps" itemscope itemtype="https://schema.org/HowToStep">
+              <div class="mb-3">
+                <label for="inputValue" class="form-label">Valor de Entrada</label>
+                <input
+                        type="number"
+                        class="form-control"
+                        id="inputValue"
+                        placeholder="Digite um número"
+                        required
+                        aria-required="true"
+                        itemprop="itemListElement"
+                />
+              </div>
+              <button type="submit" class="btn btn-primary w-100" itemprop="url">Calcular</button>
+            </form>
+
+            <div class="mt-4" itemprop="result">
+              <h4 class="text-center">Resultado:</h4>
+              <p id="outputResult" class="text-center fs-4 fw-bold">--</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="chart-container">
+          <canvas id="resultChart" aria-label="Gráfico mostrando a relação entre entrada e saída da rede neural" role="img"></canvas>
+        </div>
+
+        <div class="mt-5" itemprop="supply">
+          <h4>Como funciona essa predição?</h4>
+          <p itemprop="text">
+            A predição apresentada neste exemplo é baseada em uma função linear simples: <code>y = 2x + 1</code>, onde <code>x</code> é o valor de entrada fornecido pelo usuário e <code>y</code> é o resultado calculado.
+            Essa função simula um modelo básico de rede neural com uma única camada e sem ativação complexa, apenas para fins educacionais.
+          </p>
+          <p itemprop="text">
+            Redes neurais reais utilizam múltiplas camadas, funções de ativação não lineares e ajustes de pesos através de algoritmos de aprendizado como backpropagation. Esta demonstração ajuda a ilustrar o conceito fundamental de como os dados de entrada são transformados em saídas através de operações matemáticas.
+          </p>
+        </div>
+      </section>
+
+      <aside class="mt-4" role="complementary">
+        <div class="alert alert-info">
+          <h5>Dica Interativa</h5>
+          <p>Experimente inserir valores entre -10 e 10 para observar melhor o comportamento linear do modelo!</p>
+        </div>
+      </aside>
     </div>
   </div>
+</main>
 
-  <div class="bottom-border text-center">
-    <p>© 2025 - Redes Neurais Simples | Todos os direitos reservados</p>
+<footer role="contentinfo" class="bottom-border text-center">
+  <p>© 2025 - Sistema de IA | Todos os direitos reservados</p>
+</footer>
+
+<!-- Modal de Carregamento -->
+<div class="modal fade" id="loadingModal" tabindex="-1" aria-hidden="true" data-bs-backdrop="static">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-body text-center py-4">
+        <div class="spinner-border text-primary mb-3" role="status">
+          <span class="visually-hidden">Carregando...</span>
+        </div>
+        <h5>Processando análise...</h5>
+      </div>
+    </div>
   </div>
 </div>
 
-<script
-        src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
-        crossorigin="anonymous"
-></script>
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script>
-  const form = document.getElementById('neuralForm');
-  const outputResult = document.getElementById('outputResult');
-  const ctx = document.getElementById('resultChart').getContext('2d');
+<!-- Scripts -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js" defer></script>
 
-  const chart = new Chart(ctx, {
-    type: 'line',
-    data: {
-      labels: [],
-      datasets: [{
-        label: 'Predição da Rede Neural',
-        data: [],
-        borderColor: 'rgba(75, 192, 192, 1)',
-        borderWidth: 2,
-      }],
-    },
-    options: {
-      responsive: true,
-      scales: {
-        x: {
-          title: {
-            display: true,
-            text: 'Entrada',
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // Inicialização das abas do Bootstrap
+    const triggerTabList = [].slice.call(document.querySelectorAll('#myTab a'))
+    triggerTabList.forEach(function (triggerEl) {
+      const tabTrigger = new bootstrap.Tab(triggerEl)
+
+      triggerEl.addEventListener('click', function (event) {
+        event.preventDefault()
+        tabTrigger.show()
+      })
+    })
+
+    // Atualizar classe 'active' nas abas
+    const tabEls = document.querySelectorAll('a[data-bs-toggle="tab"]')
+    tabEls.forEach(function(tabEl) {
+      tabEl.addEventListener('shown.bs.tab', function (event) {
+        // Atualiza a classe 'active' nos itens de navegação
+        document.querySelectorAll('.nav-link').forEach(function(link) {
+          link.classList.remove('active')
+        })
+        event.target.classList.add('active')
+
+        // Redesenha gráficos se necessário
+        if (event.target.getAttribute('data-bs-target') === '#neural-demo' && window.neuralChart) {
+          window.neuralChart.resize()
+          window.neuralChart.update()
+        }
+      })
+    })
+
+    // =============================================
+    // Seção de Análise de Comportamento
+    // =============================================
+    const behaviors = [
+      "Assistiu mais de 5 episódios seguidos",
+      "Pulou introdução várias vezes",
+      "Pausou os vídeos muitas vezes",
+      "Assistiu de madrugada",
+      "Assistiu em mais de 2 dispositivos diferentes",
+      "Entrou no app várias vezes no dia",
+      "Mais de 2h de inatividade",
+      "Deu like ou favoritou mais de 3 vezes",
+      "Tentativas de login falhas consecutivas",
+      "Acesso de uma rede pública",
+      "Sessões extremamente curtas e repetidas",
+      "Fez login em redes diferentes"
+    ]
+
+    const outputs = [
+      "Usuário dormiu assistindo",
+      "Usuário engajado",
+      "Comportamento suspeito",
+      "Compartilhamento de conta"
+    ]
+
+    // Renderizar inputs de comportamento
+    const behaviorInputs = document.getElementById('behaviorInputs')
+    behaviors.forEach((behavior, index) => {
+      const card = document.createElement('div')
+      card.className = 'card input-card'
+      card.dataset.index = index
+      card.innerHTML = `
+      <div class="card-body">
+        <div class="form-check form-switch">
+          <input class="form-check-input" type="checkbox" id="behavior-${index}">
+          <label class="form-check-label" for="behavior-${index}">${behavior}</label>
+        </div>
+      </div>
+    `
+      behaviorInputs.appendChild(card)
+
+      // Adicionar evento de clique
+      card.addEventListener('click', function(e) {
+        if (e.target.tagName !== 'INPUT' && e.target.tagName !== 'LABEL') {
+          const checkbox = this.querySelector('input')
+          checkbox.checked = !checkbox.checked
+        }
+        this.classList.toggle('active', this.querySelector('input').checked)
+      })
+    })
+
+    // Botão de análise
+    document.getElementById('analyzeBtn').addEventListener('click', async function() {
+      const loadingModal = new bootstrap.Modal(document.getElementById('loadingModal'))
+      loadingModal.show()
+
+      try {
+        // Coletar inputs
+        const inputs = []
+        document.querySelectorAll('.input-card input[type="checkbox"]').forEach(checkbox => {
+          inputs.push(checkbox.checked ? 1 : 0)
+        })
+
+        // Chamar API para análise (simulada)
+        const { predictions, explanation } = await analyzeBehavior(inputs)
+
+        // Exibir resultados
+        showResults(predictions, explanation)
+
+      } catch (error) {
+        console.error('Erro na análise:', error)
+        alert('Ocorreu um erro ao analisar o comportamento')
+      } finally {
+        loadingModal.hide()
+      }
+    })
+
+    // Função simulada para análise (substituir por chamada real à API)
+    async function analyzeBehavior(inputs) {
+      // Simular delay de rede
+      await new Promise(resolve => setTimeout(resolve, 1500))
+
+      // Simular resposta da rede neural (valores aleatórios para demonstração)
+      const predictions = outputs.map((_, i) => ({
+        label: outputs[i],
+        probability: Math.random(),
+        value: Math.random() > 0.5 ? 1 : 0
+      }))
+
+      // Simular explicação (substituir por explicação real do LIME)
+      const explanation = {}
+      outputs.forEach((_, label) => {
+        explanation[label] = behaviors.map((_, feature) => ({
+          feature: `${feature}=${inputs[feature]}`,
+          weight: (Math.random() * 0.4 - 0.2) // pesos entre -0.2 e 0.2
+        })).sort((a, b) => Math.abs(b.weight) - Math.abs(a.weight)).slice(0, 5)
+      })
+
+      return { predictions, explanation }
+    }
+
+    function showResults(predictions, explanation) {
+      const resultsCard = document.getElementById('resultsCard')
+      const explanationCard = document.getElementById('explanationCard')
+      const resultsContainer = document.getElementById('predictionResults')
+      const explanationContainer = document.getElementById('modelExplanation')
+
+      // Limpar resultados anteriores
+      resultsContainer.innerHTML = ''
+      explanationContainer.innerHTML = ''
+
+      // Exibir previsões
+      predictions.forEach((pred, i) => {
+        const col = document.createElement('div')
+        col.className = 'col-md-6 mb-3'
+
+        const progress = document.createElement('div')
+        progress.className = 'progress mb-2'
+        progress.style.height = '30px'
+        progress.innerHTML = `
+        <div class="progress-bar" role="progressbar"
+             style="width: ${pred.probability * 100}%"
+             aria-valuenow="${pred.probability * 100}"
+             aria-valuemin="0"
+             aria-valuemax="100">
+          ${(pred.probability * 100).toFixed(1)}%
+        </div>
+      `
+
+        const card = document.createElement('div')
+        card.className = `card ${pred.value ? 'border-success' : 'border-secondary'}`
+        card.innerHTML = `
+        <div class="card-body">
+          <h5 class="card-title">${pred.label}</h5>
+          <p class="card-text">${pred.value ? 'Detectado' : 'Não detectado'}</p>
+          ${progress.outerHTML}
+        </div>
+      `
+
+        col.appendChild(card)
+        resultsContainer.appendChild(col)
+      })
+
+      // Exibir explicação
+      const explanationTitle = document.createElement('h5')
+      explanationTitle.className = 'mb-3'
+      explanationTitle.textContent = 'Fatores que influenciaram a decisão:'
+      explanationContainer.appendChild(explanationTitle)
+
+      for (const [labelIndex, features] of Object.entries(explanation)) {
+        const label = outputs[labelIndex]
+        const labelHeader = document.createElement('h6')
+        labelHeader.className = 'mt-3 mb-2'
+        labelHeader.textContent = label
+        explanationContainer.appendChild(labelHeader)
+
+        features.forEach(feat => {
+          const [featureIndex, value] = feat.feature.split('=')
+          const featureName = behaviors[featureIndex]
+          const impactClass = feat.weight > 0 ? 'positive-impact' : 'negative-impact'
+
+          const item = document.createElement('div')
+          item.className = `explanation-item ${impactClass}`
+          item.innerHTML = `
+          <span class="feature-name">${featureName}:</span> ${value === '1' ? 'Sim' : 'Não'}
+          <span class="float-end">${feat.weight > 0 ? '+' : ''}${feat.weight.toFixed(3)}</span>
+        `
+          explanationContainer.appendChild(item)
+        })
+      }
+
+      // Mostrar cards
+      resultsCard.classList.remove('d-none')
+      explanationCard.classList.remove('d-none')
+
+      // Scroll para resultados
+      resultsCard.scrollIntoView({ behavior: 'smooth' })
+    }
+
+    // =============================================
+    // Seção de Demonstração de Rede Neural
+    // =============================================
+    // Verifica se os scripts necessários estão carregados
+    if (typeof Chart === 'undefined' || typeof bootstrap === 'undefined') {
+      console.error('Dependências não carregadas')
+      return
+    }
+
+    const neuralForm = document.getElementById('neuralForm')
+    const outputResult = document.getElementById('outputResult')
+    const ctx = document.getElementById('resultChart').getContext('2d')
+
+    // Inicializa o gráfico
+    window.neuralChart = new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: [],
+        datasets: [{
+          label: 'Predição da Rede Neural',
+          data: [],
+          borderColor: 'rgba(0, 123, 255, 1)',
+          borderWidth: 2,
+          backgroundColor: 'rgba(0, 123, 255, 0.1)',
+          fill: true,
+          tension: 0.1
+        }],
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: {
+            position: 'top',
           },
+          tooltip: {
+            callbacks: {
+              label: function(context) {
+                return `Saída: ${context.parsed.y}`
+              }
+            }
+          }
         },
-        y: {
-          title: {
-            display: true,
-            text: 'Saída',
+        scales: {
+          x: {
+            title: {
+              display: true,
+              text: 'Valor de Entrada (x)',
+            },
+          },
+          y: {
+            title: {
+              display: true,
+              text: 'Predição (y = 2x + 1)',
+            },
           },
         },
       },
-    },
-  });
+    })
 
-  form.addEventListener('submit', (e) => {
-    e.preventDefault();
-    const inputValue = parseFloat(document.getElementById('inputValue').value);
-    if (!isNaN(inputValue)) {
-      const result = (inputValue * 2 + 1).toFixed(2);
-      outputResult.textContent = result;
+            // Adiciona alguns dados iniciais para demonstração
+            [-2, -1, 0, 1, 2].forEach(x => {
+      const y = (x * 2 + 1).toFixed(2)
+      window.neuralChart.data.labels.push(x)
+      window.neuralChart.data.datasets[0].data.push(y)
+    })
+    window.neuralChart.update()
 
-      chart.data.labels.push(inputValue);
-      chart.data.datasets[0].data.push(result);
-      chart.update();
+    // Manipulador do formulário
+    neuralForm.addEventListener('submit', function(e) {
+      e.preventDefault()
+      const input = document.getElementById('inputValue')
+      const inputValue = parseFloat(input.value)
+
+      if (!isNaN(inputValue)) {
+        // Simula o processamento de uma rede neural simples
+        const result = (inputValue * 2 + 1).toFixed(2)
+        outputResult.textContent = result
+
+        // Adiciona ao gráfico
+        window.neuralChart.data.labels.push(inputValue)
+        window.neuralChart.data.datasets[0].data.push(result)
+        window.neuralChart.update()
+
+        // Foco de acessibilidade
+        outputResult.focus()
+      } else {
+        alert('Por favor, insira um número válido')
+        input.focus()
+      }
+    })
+
+    // Monitoramento de performance
+    if ('PerformanceObserver' in window) {
+      const observer = new PerformanceObserver((list) => {
+        const entries = list.getEntries()
+        console.log('[Performance]', entries)
+      })
+      observer.observe({entryTypes: ['paint', 'largest-contentful-paint', 'first-input']})
     }
-  });
+  })
 </script>
-
 </body>
 </html>

@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Aprenda sobre Redes Neurais Simples de forma interativa com exemplos práticos e visualizações.">
+  <meta name="keywords" content="redes neurais, inteligência artificial, machine learning, aprendizado de máquina, IA">
+  <meta name="author" content="Seu Nome ou Organização">
+  <title>Redes Neurais Simples - Explicação Interativa</title>
+
+  <!-- Open Graph / Social Media -->
+  <meta property="og:title" content="Redes Neurais Simples - Explicação Interativa">
+  <meta property="og:description" content="Explore o funcionamento básico de redes neurais simples de forma interativa.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://seusite.com/redes-neurais-simples">
+
+  <!-- Pré-carregamento de recursos críticos -->
+  <link rel="preload" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" as="style">
+  <link rel="preload" href="https://cdn.jsdelivr.net/npm/chart.js" as="script">
+  <link rel="preconnect" href="https://cdn.jsdelivr.net">
+
+  <!-- Bootstrap CSS -->
+  <link
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+          crossorigin="anonymous"
+  />
+
+  <!-- Favicon -->
+  <link rel="icon" href="favicon.ico" type="image/x-icon">
+
+  <style>
+    /* Estilos otimizados e consolidados */
+    :root {
+      --primary-color: #007BFF;
+      --secondary-color: #0056b3;
+      --text-color: #333;
+      --light-bg: #f8f9fa;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      line-height: 1.6;
+      color: var(--text-color);
+      padding-top: 56px; /* Espaço para navbar fixa */
+    }
+
+    .navbar {
+      background-color: var(--primary-color);
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      padding: 0.5rem 1rem;
+    }
+
+    .navbar-brand, .nav-link {
+      color: white !important;
+      transition: opacity 0.3s ease;
+    }
+
+    .navbar-brand:hover, .nav-link:hover {
+      opacity: 0.9;
+    }
+
+    .navbar-toggler-icon {
+      background-color: white;
+    }
+
+    .interactive-section {
+      margin-top: 2rem;
+      padding: 1.5rem;
+      background-color: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .chart-container {
+      width: 100%;
+      max-width: 800px;
+      margin: 2rem auto;
+      min-height: 300px;
+    }
+
+    .bottom-border {
+      border-top: 3px solid var(--primary-color);
+      margin-top: 3rem;
+      padding: 1.5rem 0;
+      background-color: var(--light-bg);
+    }
+
+    code {
+      background-color: rgba(0, 123, 255, 0.1);
+      padding: 0.2rem 0.4rem;
+      border-radius: 4px;
+      color: var(--secondary-color);
+      font-family: 'Courier New', Courier, monospace;
+    }
+
+    /* Estilo para o botão com retângulo escuro */
+    .nav-item .nav-link.demonstracao-rede {
+      background-color: #0056b3;
+      color: #ffffff !important;
+      font-weight: bold;
+      padding: 5px 10px;
+      border-radius: 5px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      margin: 0 5px;
+    }
+
+    /* Acessibilidade */
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border-width: 0;
+    }
+
+    /* Responsividade */
+    @media (max-width: 768px) {
+      .chart-container {
+        max-width: 100%;
+      }
+
+      .interactive-section {
+        padding: 1rem;
+      }
+    }
+
+    @media (max-width: 576px) {
+      body {
+        padding-top: 48px;
+      }
+
+      .navbar-brand {
+        font-size: 1rem;
+      }
+    }
+  </style>
+</head>
+
+<body itemscope itemtype="https://schema.org/WebPage">
+<header role="banner">
+  <nav class="navbar navbar-expand-lg navbar-dark fixed-top" role="navigation">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="index.html" itemprop="url">Página Inicial</a>
+      <button
+              class="navbar-toggler"
+              type="button"
+              data-bs-toggle="collapse"
+              data-bs-target="#navbarNav"
+              aria-controls="navbarNav"
+              aria-expanded="false"
+              aria-label="Alternar navegação"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav me-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="RedeNeuralSimples.html">Análise de Comportamento</a>
+          </li>
+          <li class="nav-item">
+            <span class="nav-link demonstracao-rede" style="cursor: default;">Demonstração de Rede Neural com Predição</span>
+          </li>
+        </ul>
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item dropdown">
+            <a
+                    class="nav-link dropdown-toggle"
+                    href="#"
+                    role="button"
+                    data-bs-toggle="dropdown"
+                    aria-expanded="false"
+                    aria-haspopup="true"
+            >
+              Sobre nós
+            </a>
+            <ul class="dropdown-menu" role="menu">
+              <li><a class="dropdown-item" href="SobreProjeto.html" role="menuitem">Projeto</a></li>
+              <li><a class="dropdown-item" href="SobreGrupo.html" role="menuitem">Grupo</a></li>
+            </ul>
+          </li>
+          <li class="nav-item dropdown">
+            <a
+                    class="nav-link dropdown-toggle"
+                    href="#"
+                    role="button"
+                    data-bs-toggle="dropdown"
+                    aria-expanded="false"
+                    aria-haspopup="true"
+            >
+              Tipos de IA
+            </a>
+            <ul class="dropdown-menu" role="menu">
+              <li><a class="dropdown-item" href="RedeNeuralSimples.html" role="menuitem">Rede Neural Simples</a></li>
+              <li><a class="dropdown-item" href="#" role="menuitem">NLP</a></li>
+              <li><a class="dropdown-item" href="#" role="menuitem">OCR</a></li>
+              <li><a class="dropdown-item" href="#" role="menuitem">MLP</a></li>
+              <li><a class="dropdown-item" href="#" role="menuitem">Transformers</a></li>
+            </ul>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active" href="#" aria-current="page">Precisa de ajuda?</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+</header>
+
+<main role="main" class="container mt-4 pt-3">
+  <h1 class="text-center sr-only">Redes Neurais Simples</h1>
+  <h2 class="text-center" aria-hidden="true">Redes Neurais Simples</h2>
+  <p class="text-center mb-4">Explore o funcionamento básico de redes neurais simples de forma interativa.</p>
+
+  <section class="interactive-section" itemscope itemtype="https://schema.org/HowTo">
+    <h3 class="text-center" itemprop="name">Teste uma Rede Neural Simples</h3>
+    <p class="text-center" itemprop="description">Insira valores para ver como uma rede neural realiza predições básicas.</p>
+
+    <div class="row justify-content-center">
+      <div class="col-md-8 col-lg-6">
+        <form id="neuralForm" itemprop="steps" itemscope itemtype="https://schema.org/HowToStep">
+          <div class="mb-3">
+            <label for="inputValue" class="form-label">Valor de Entrada</label>
+            <input
+                    type="number"
+                    class="form-control"
+                    id="inputValue"
+                    placeholder="Digite um número"
+                    required
+                    aria-required="true"
+                    itemprop="itemListElement"
+            />
+          </div>
+          <button type="submit" class="btn btn-primary w-100" itemprop="url">Calcular</button>
+        </form>
+
+        <div class="mt-4" itemprop="result">
+          <h4 class="text-center">Resultado:</h4>
+          <p id="outputResult" class="text-center fs-4 fw-bold">--</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="chart-container">
+      <canvas id="resultChart" aria-label="Gráfico mostrando a relação entre entrada e saída da rede neural" role="img"></canvas>
+    </div>
+
+    <div class="mt-5" itemprop="supply">
+      <h4>Como funciona essa predição?</h4>
+      <p itemprop="text">
+        A predição apresentada neste exemplo é baseada em uma função linear simples: <code>y = 2x + 1</code>, onde <code>x</code> é o valor de entrada fornecido pelo usuário e <code>y</code> é o resultado calculado.
+        Essa função simula um modelo básico de rede neural com uma única camada e sem ativação complexa, apenas para fins educacionais.
+      </p>
+      <p itemprop="text">
+        Redes neurais reais utilizam múltiplas camadas, funções de ativação não lineares e ajustes de pesos através de algoritmos de aprendizado como backpropagation. Esta demonstração ajuda a ilustrar o conceito fundamental de como os dados de entrada são transformados em saídas através de operações matemáticas.
+      </p>
+    </div>
+  </section>
+
+  <aside class="mt-4" role="complementary">
+    <div class="alert alert-info">
+      <h5>Dica Interativa</h5>
+      <p>Experimente inserir valores entre -10 e 10 para observar melhor o comportamento linear do modelo!</p>
+    </div>
+  </aside>
+</main>
+
+<footer role="contentinfo" class="bottom-border text-center">
+  <p>© 2025 - Redes Neurais Simples | Todos os direitos reservados</p>
+</footer>
+
+<!-- Scripts otimizados com defer -->
+<script
+        src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"
+        defer
+></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js" defer></script>
+
+<script>
+  // Monitoramento de performance
+  if ('PerformanceObserver' in window) {
+    const observer = new PerformanceObserver((list) => {
+      const entries = list.getEntries();
+      console.log('[Performance]', entries);
+    });
+    observer.observe({entryTypes: ['paint', 'largest-contentful-paint', 'first-input']});
+  }
+
+  // Carregamento diferido da funcionalidade interativa
+  document.addEventListener('DOMContentLoaded', function() {
+    // Verifica se os scripts necessários estão carregados
+    if (typeof Chart === 'undefined' || typeof bootstrap === 'undefined') {
+      console.error('Dependências não carregadas');
+      return;
+    }
+
+    const form = document.getElementById('neuralForm');
+    const outputResult = document.getElementById('outputResult');
+    const ctx = document.getElementById('resultChart').getContext('2d');
+
+    // Inicializa o gráfico
+    const chart = new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: [],
+        datasets: [{
+          label: 'Predição da Rede Neural',
+          data: [],
+          borderColor: 'rgba(0, 123, 255, 1)',
+          borderWidth: 2,
+          backgroundColor: 'rgba(0, 123, 255, 0.1)',
+          fill: true,
+          tension: 0.1
+        }],
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: {
+            position: 'top',
+          },
+          tooltip: {
+            callbacks: {
+              label: function(context) {
+                return `Saída: ${context.parsed.y}`;
+              }
+            }
+          }
+        },
+        scales: {
+          x: {
+            title: {
+              display: true,
+              text: 'Valor de Entrada (x)',
+            },
+          },
+          y: {
+            title: {
+              display: true,
+              text: 'Predição (y = 2x + 1)',
+            },
+          },
+        },
+      },
+    });
+
+    // Adiciona alguns dados iniciais para demonstração
+    [-2, -1, 0, 1, 2].forEach(x => {
+      const y = (x * 2 + 1).toFixed(2);
+      chart.data.labels.push(x);
+      chart.data.datasets[0].data.push(y);
+    });
+    chart.update();
+
+    // Manipulador do formulário
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+      const input = document.getElementById('inputValue');
+      const inputValue = parseFloat(input.value);
+
+      if (!isNaN(inputValue)) {
+        // Simula o processamento de uma rede neural simples
+        const result = (inputValue * 2 + 1).toFixed(2);
+        outputResult.textContent = result;
+
+        // Adiciona ao gráfico
+        chart.data.labels.push(inputValue);
+        chart.data.datasets[0].data.push(result);
+        chart.update();
+
+        // Foco de acessibilidade
+        outputResult.focus();
+      } else {
+        alert('Por favor, insira um número válido');
+        input.focus();
+      }
+    });
+  });
+</script>
+</body>
+</html>
