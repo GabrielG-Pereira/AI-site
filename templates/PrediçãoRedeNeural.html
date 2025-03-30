@@ -8,69 +8,41 @@
   <meta name="author" content="Seu Nome ou Organização">
   <title>Redes Neurais Simples - Explicação Interativa</title>
 
-  <!-- Open Graph / Social Media -->
-  <meta property="og:title" content="Redes Neurais Simples - Explicação Interativa">
-  <meta property="og:description" content="Explore o funcionamento básico de redes neurais simples de forma interativa.">
-  <meta property="og:type" content="website">
-  <meta property="og:url" content="https://seusite.com/redes-neurais-simples">
-
-  <!-- Pré-carregamento de recursos críticos -->
-  <link rel="preload" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" as="style">
-  <link rel="preload" href="https://cdn.jsdelivr.net/npm/chart.js" as="script">
-  <link rel="preconnect" href="https://cdn.jsdelivr.net">
-
   <!-- Bootstrap CSS -->
-  <link
-          href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
-          rel="stylesheet"
-          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
-          crossorigin="anonymous"
-  />
-
-  <!-- Favicon -->
-  <link rel="icon" href="favicon.ico" type="image/x-icon">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
   <style>
-    /* Estilos otimizados e consolidados */
     :root {
       --primary-color: #007BFF;
       --secondary-color: #0056b3;
+      --darker-blue: #003d7a;
       --text-color: #333;
       --light-bg: #f8f9fa;
+      --success-color: #28a745;
+      --danger-color: #dc3545;
     }
 
     body {
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
       line-height: 1.6;
       color: var(--text-color);
-      padding-top: 56px; /* Espaço para navbar fixa */
+      padding-top: 56px;
+      background-color: #f5f7fa;
     }
 
-    .navbar {
-      background-color: var(--primary-color);
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-      padding: 0.5rem 1rem;
-    }
-
-    .navbar-brand, .nav-link {
+    .darker-card-header {
+      background-color: var(--darker-blue) !important;
       color: white !important;
-      transition: opacity 0.3s ease;
-    }
-
-    .navbar-brand:hover, .nav-link:hover {
-      opacity: 0.9;
-    }
-
-    .navbar-toggler-icon {
-      background-color: white;
     }
 
     .interactive-section {
       margin-top: 2rem;
-      padding: 1.5rem;
+      padding: 2rem;
       background-color: white;
-      border-radius: 8px;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
     }
 
     .chart-container {
@@ -78,6 +50,10 @@
       max-width: 800px;
       margin: 2rem auto;
       min-height: 300px;
+      background-color: white;
+      padding: 1.5rem;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
     }
 
     .bottom-border {
@@ -89,44 +65,87 @@
 
     code {
       background-color: rgba(0, 123, 255, 0.1);
-      padding: 0.2rem 0.4rem;
+      padding: 0.3rem 0.5rem;
       border-radius: 4px;
       color: var(--secondary-color);
       font-family: 'Courier New', Courier, monospace;
+      font-size: 0.9em;
     }
 
-    /* Estilo para o botão com retângulo escuro */
+    .navbar {
+      background-color: var(--primary-color);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      padding: 0.5rem 1rem;
+    }
+
+    .navbar-brand, .nav-link {
+      color: white !important;
+      transition: all 0.3s ease;
+    }
+
+    .navbar-brand:hover, .nav-link:hover {
+      opacity: 0.9;
+      transform: translateY(-1px);
+    }
+
+    .navbar-toggler-icon {
+      background-color: white;
+    }
+
     .nav-item .nav-link.demonstracao-rede {
       background-color: #0056b3;
       color: #ffffff !important;
       font-weight: bold;
-      padding: 5px 10px;
-      border-radius: 5px;
+      padding: 8px 16px;
+      border-radius: 8px;
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-      margin: 0 5px;
+      transition: all 0.3s ease;
     }
 
-    /* Acessibilidade */
-    .sr-only {
-      position: absolute;
-      width: 1px;
-      height: 1px;
-      padding: 0;
-      margin: -1px;
+    .nav-item .nav-link.demonstracao-rede:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.25);
+    }
+
+    .btn {
+      border-radius: 8px;
+      padding: 0.5rem 1.25rem;
+      transition: all 0.3s ease;
+      font-weight: 500;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+
+    .concept-card {
+      transition: all 0.3s ease;
+      height: 100%;
+      border-radius: 10px;
       overflow: hidden;
-      clip: rect(0, 0, 0, 0);
-      white-space: nowrap;
-      border-width: 0;
+      border: none;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.05);
     }
 
-    /* Responsividade */
+    .concept-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+    }
+
+    .concept-icon {
+      font-size: 2.5rem;
+      color: var(--primary-color);
+      margin-bottom: 1rem;
+    }
+
     @media (max-width: 768px) {
       .chart-container {
         max-width: 100%;
       }
 
       .interactive-section {
-        padding: 1rem;
+        padding: 1.5rem;
       }
     }
 
@@ -142,69 +161,50 @@
   </style>
 </head>
 
-<body itemscope itemtype="https://schema.org/WebPage">
-<header role="banner">
-  <nav class="navbar navbar-expand-lg navbar-dark fixed-top" role="navigation">
+<body>
+<header>
+  <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
     <div class="container-fluid">
-      <a class="navbar-brand" href="index.html" itemprop="url">Página Inicial</a>
-      <button
-              class="navbar-toggler"
-              type="button"
-              data-bs-toggle="collapse"
-              data-bs-target="#navbarNav"
-              aria-controls="navbarNav"
-              aria-expanded="false"
-              aria-label="Alternar navegação"
-      >
+      <a class="navbar-brand" href="index.html">
+        <i class="fas fa-brain me-2"></i>Página Principal
+      </a>
+      <div class="mx-2" style="border-left: 1px solid rgba(255,255,255,0.3); height: 30px;"></div>
+      <a class="nav-link" href="RedeNeuralSimples.html" style="padding: 5px 10px;">
+        Análise de comportamento
+      </a>
+      <span class="nav-link active" style="background-color: #003d7a; color: white !important; border-radius: 5px; padding: 5px 10px; margin-right: 10px; cursor: default;">
+        Predição
+      </span>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav me-auto">
-          <li class="nav-item">
-            <a class="nav-link" href="RedeNeuralSimples.html">Análise de Comportamento</a>
-          </li>
-          <li class="nav-item">
-            <span class="nav-link demonstracao-rede" style="cursor: default;">Demonstração de Rede Neural com Predição</span>
-          </li>
-        </ul>
         <ul class="navbar-nav ms-auto">
           <li class="nav-item dropdown">
-            <a
-                    class="nav-link dropdown-toggle"
-                    href="#"
-                    role="button"
-                    data-bs-toggle="dropdown"
-                    aria-expanded="false"
-                    aria-haspopup="true"
-            >
-              Sobre nós
+            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+              <i class="fas fa-info-circle me-1"></i>Sobre nós
             </a>
-            <ul class="dropdown-menu" role="menu">
-              <li><a class="dropdown-item" href="SobreProjeto.html" role="menuitem">Projeto</a></li>
-              <li><a class="dropdown-item" href="SobreGrupo.html" role="menuitem">Grupo</a></li>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="SobreProjeto.html"><i class="fas fa-project-diagram me-2"></i>Projeto</a></li>
+              <li><a class="dropdown-item" href="SobreGrupo.html"><i class="fas fa-users me-2"></i>Grupo</a></li>
             </ul>
           </li>
           <li class="nav-item dropdown">
-            <a
-                    class="nav-link dropdown-toggle"
-                    href="#"
-                    role="button"
-                    data-bs-toggle="dropdown"
-                    aria-expanded="false"
-                    aria-haspopup="true"
-            >
-              Tipos de IA
+            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+              <i class="fas fa-robot me-1"></i>Tipos de IA
             </a>
-            <ul class="dropdown-menu" role="menu">
-              <li><a class="dropdown-item" href="RedeNeuralSimples.html" role="menuitem">Rede Neural Simples</a></li>
-              <li><a class="dropdown-item" href="#" role="menuitem">NLP</a></li>
-              <li><a class="dropdown-item" href="#" role="menuitem">OCR</a></li>
-              <li><a class="dropdown-item" href="#" role="menuitem">MLP</a></li>
-              <li><a class="dropdown-item" href="#" role="menuitem">Transformers</a></li>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="RedeNeuralSimples.html"><i class="fas fa-network-wired me-2"></i>Rede Neural Simples</a></li>
+              <li><a class="dropdown-item" href="NLP.html"><i class="fas fa-language me-2"></i>NLP</a></li>
+              <li><a class="dropdown-item" href="#"><i class="fas fa-image me-2"></i>OCR</a></li>
+              <li><a class="dropdown-item" href="#"><i class="fas fa-layer-group me-2"></i>MLP</a></li>
+              <li><a class="dropdown-item" href="#"><i class="fas fa-exchange-alt me-2"></i>Transformers</a></li>
             </ul>
           </li>
           <li class="nav-item">
-            <a class="nav-link active" href="#" aria-current="page">Precisa de ajuda?</a>
+            <a class="nav-link" href="#">
+              <i class="fas fa-question-circle me-1"></i>Ajuda
+            </a>
           </li>
         </ul>
       </div>
@@ -212,20 +212,73 @@
   </nav>
 </header>
 
-<main role="main" class="container mt-4 pt-3">
+<main class="container mt-4 pt-3">
+  <!-- Seção de Conceitos -->
+  <section class="mb-5">
+    <div class="card border-0 shadow-sm">
+      <div class="card-header darker-card-header">
+        <h3 class="mb-0"><i class="fas fa-lightbulb me-2"></i>Conceitos de Redes Neurais</h3>
+      </div>
+      <div class="card-body">
+        <div class="row g-4">
+          <div class="col-md-6 col-lg-3">
+            <div class="card concept-card h-100">
+              <div class="card-body text-center">
+                <i class="fas fa-network-wired concept-icon"></i>
+                <h4>Estrutura Básica</h4>
+                <p>Entenda os componentes fundamentais de uma rede neural: neurônios, camadas e conexões.</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6 col-lg-3">
+            <div class="card concept-card h-100">
+              <div class="card-body text-center">
+                <i class="fas fa-calculator concept-icon"></i>
+                <h4>Função de Ativação</h4>
+                <p>Explore como as funções de ativação introduzem não-linearidade nas redes neurais.</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6 col-lg-3">
+            <div class="card concept-card h-100">
+              <div class="card-body text-center">
+                <i class="fas fa-random concept-icon"></i>
+                <h4>Propagação</h4>
+                <p>Como a informação flui através da rede durante o processo de predição.</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6 col-lg-3">
+            <div class="card concept-card h-100">
+              <div class="card-body text-center">
+                <i class="fas fa-chart-line concept-icon"></i>
+                <h4>Aprendizado</h4>
+                <p>O processo de ajuste de pesos através de algoritmos como backpropagation.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <h1 class="text-center sr-only">Redes Neurais Simples</h1>
-  <h2 class="text-center" aria-hidden="true">Redes Neurais Simples</h2>
+  <h2 class="text-center mb-4">
+    <i class="fas fa-network-wired me-2"></i>Redes Neurais Simples
+  </h2>
   <p class="text-center mb-4">Explore o funcionamento básico de redes neurais simples de forma interativa.</p>
 
   <section class="interactive-section" itemscope itemtype="https://schema.org/HowTo">
-    <h3 class="text-center" itemprop="name">Teste uma Rede Neural Simples</h3>
+    <h3 class="text-center" itemprop="name"><i class="fas fa-flask me-2"></i>Teste uma Rede Neural Simples</h3>
     <p class="text-center" itemprop="description">Insira valores para ver como uma rede neural realiza predições básicas.</p>
 
     <div class="row justify-content-center">
       <div class="col-md-8 col-lg-6">
         <form id="neuralForm" itemprop="steps" itemscope itemtype="https://schema.org/HowToStep">
           <div class="mb-3">
-            <label for="inputValue" class="form-label">Valor de Entrada</label>
+            <label for="inputValue" class="form-label">
+              <i class="fas fa-keyboard me-2"></i>Valor de Entrada
+            </label>
             <input
                     type="number"
                     class="form-control"
@@ -236,22 +289,24 @@
                     itemprop="itemListElement"
             />
           </div>
-          <button type="submit" class="btn btn-primary w-100" itemprop="url">Calcular</button>
+          <button type="submit" class="btn btn-primary w-100" itemprop="url">
+            <i class="fas fa-calculator me-2"></i>Calcular
+          </button>
         </form>
 
         <div class="mt-4" itemprop="result">
-          <h4 class="text-center">Resultado:</h4>
+          <h4 class="text-center"><i class="fas fa-chart-bar me-2"></i>Resultado:</h4>
           <p id="outputResult" class="text-center fs-4 fw-bold">--</p>
         </div>
       </div>
     </div>
 
-    <div class="chart-container">
+    <div class="chart-container shadow-sm">
       <canvas id="resultChart" aria-label="Gráfico mostrando a relação entre entrada e saída da rede neural" role="img"></canvas>
     </div>
 
     <div class="mt-5" itemprop="supply">
-      <h4>Como funciona essa predição?</h4>
+      <h4><i class="fas fa-info-circle me-2"></i>Como funciona essa predição?</h4>
       <p itemprop="text">
         A predição apresentada neste exemplo é baseada em uma função linear simples: <code>y = 2x + 1</code>, onde <code>x</code> é o valor de entrada fornecido pelo usuário e <code>y</code> é o resultado calculado.
         Essa função simula um modelo básico de rede neural com uma única camada e sem ativação complexa, apenas para fins educacionais.
@@ -263,37 +318,22 @@
   </section>
 
   <aside class="mt-4" role="complementary">
-    <div class="alert alert-info">
-      <h5>Dica Interativa</h5>
+    <div class="alert alert-info shadow-sm">
+      <h5><i class="fas fa-lightbulb me-2"></i>Dica Interativa</h5>
       <p>Experimente inserir valores entre -10 e 10 para observar melhor o comportamento linear do modelo!</p>
     </div>
   </aside>
 </main>
 
-<footer role="contentinfo" class="bottom-border text-center">
+<footer class="bottom-border text-center">
   <p>© 2025 - Redes Neurais Simples | Todos os direitos reservados</p>
 </footer>
 
-<!-- Scripts otimizados com defer -->
-<script
-        src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
-        crossorigin="anonymous"
-        defer
-></script>
-<script src="https://cdn.jsdelivr.net/npm/chart.js" defer></script>
+<!-- Scripts -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <script>
-  // Monitoramento de performance
-  if ('PerformanceObserver' in window) {
-    const observer = new PerformanceObserver((list) => {
-      const entries = list.getEntries();
-      console.log('[Performance]', entries);
-    });
-    observer.observe({entryTypes: ['paint', 'largest-contentful-paint', 'first-input']});
-  }
-
-  // Carregamento diferido da funcionalidade interativa
   document.addEventListener('DOMContentLoaded', function() {
     // Verifica se os scripts necessários estão carregados
     if (typeof Chart === 'undefined' || typeof bootstrap === 'undefined') {

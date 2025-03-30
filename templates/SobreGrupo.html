@@ -10,27 +10,59 @@
           integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
           crossorigin="anonymous"
   />
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <style>
+    :root {
+      --primary-color: #007BFF;
+      --secondary-color: #0056b3;
+      --darker-blue: #003d7a;
+      --text-color: #333;
+      --light-bg: #f8f9fa;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      line-height: 1.6;
+      color: var(--text-color);
+      padding-top: 56px;
+      background-color: #f5f7fa;
+    }
+
+    .navbar {
+      background-color: var(--primary-color);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      padding: 0.5rem 1rem;
+    }
+
+    .navbar-brand, .nav-link {
+      color: white !important;
+      transition: all 0.3s ease;
+    }
+
+    .navbar-brand:hover, .nav-link:hover {
+      opacity: 0.9;
+      transform: translateY(-1px);
+    }
+
+    .navbar-toggler-icon {
+      background-color: white;
+    }
+
     .carousel-item img {
       border-radius: 8px;
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     }
-    .navbar {
-      background-color: #007BFF;
-    }
-    .navbar-brand, .nav-link {
-      color: white !important;
-    }
-    .navbar-toggler-icon {
-      background-color: white;
-    }
+
     footer {
       background-color: #f8f9fa;
       padding: 30px 0;
     }
+
     footer .table th, footer .table td {
       vertical-align: middle;
     }
+
     footer .table {
       border-top: 2px solid #ddd;
     }
@@ -89,19 +121,11 @@
       margin: 15px;
     }
 
-    /* Estilo para "Sobre o Grupo" */
-    .nav-item .nav-link.sobre-grupo {
-      background-color: #0056b3;
-      color: #ffffff;
-      font-weight: bold;
-      padding: 5px 10px;
-      border-radius: 5px;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    }
     .bottom-border {
-      border-top: 3px solid #007BFF;
+      border-top: 3px solid var(--primary-color);
       margin-top: 3rem;
       padding: 1rem 0;
+      background-color: var(--light-bg);
     }
   </style>
 </head>
@@ -110,25 +134,37 @@
 <header>
   <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
     <div class="container-fluid">
-      <a class="navbar-brand" href="index.html">Página Inicial</a>
-      <button
-              class="navbar-toggler"
-              type="button"
-              data-bs-toggle="collapse"
-              data-bs-target="#navbarNav"
-              aria-controls="navbarNav"
-              aria-expanded="false"
-              aria-label="Toggle navigation"
-      >
+      <a class="navbar-brand" href="index.html">
+        <i class="fas fa-brain me-2"></i>Página Inicial
+      </a>
+      <div class="mx-2" style="border-left: 1px solid rgba(255,255,255,0.3); height: 30px;"></div>
+      <a class="nav-link" href="SobreProjeto.html" style="padding: 5px 10px;">
+        <i class="fas fa-project-diagram me-1"></i>Projeto
+      </a>
+      <span class="nav-link active" style="background-color: #003d7a; color: white !important; border-radius: 5px; padding: 5px 10px; margin-right: 10px;">
+        <i class="fas fa-users me-1"></i>Grupo
+      </span>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav ms-auto">
-          <li class="nav-item">
-            <a class="nav-link" href="SobreProjeto.html">Sobre o Projeto</a>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+              <i class="fas fa-robot me-1"></i>Tipos de IA
+            </a>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="RedeNeuralSimples.html"><i class="fas fa-network-wired me-2"></i>Rede Neural Simples</a></li>
+              <li><a class="dropdown-item" href="NLP.html"><i class="fas fa-language me-2"></i>NLP</a></li>
+              <li><a class="dropdown-item" href="#"><i class="fas fa-image me-2"></i>OCR</a></li>
+              <li><a class="dropdown-item" href="#"><i class="fas fa-layer-group me-2"></i>MLP</a></li>
+              <li><a class="dropdown-item" href="#"><i class="fas fa-exchange-alt me-2"></i>Transformers</a></li>
+            </ul>
           </li>
           <li class="nav-item">
-            <span class="nav-link sobre-grupo" style="cursor: default;">Sobre o Grupo</span>
+            <a class="nav-link" href="#">
+              <i class="fas fa-question-circle me-1"></i>Ajuda
+            </a>
           </li>
         </ul>
       </div>
@@ -136,7 +172,7 @@
   </nav>
 </header>
 
-<div class="container mt-5 pt-5">
+<div class="container mt-5 pt-3">
   <p class="text-center fs-3 mb-4">Sobre o Grupo: Equipe de Desenvolvimento</p>
 
   <!-- Descrição do Grupo -->
@@ -207,9 +243,9 @@
   </div>
 </div>
 
-<div class="bottom-border text-center">
+<footer class="bottom-border text-center">
   <p>© 2025 - Informações sobre o Grupo | Todos os direitos reservados</p>
-</div>
+</footer>
 
 <script
         src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"

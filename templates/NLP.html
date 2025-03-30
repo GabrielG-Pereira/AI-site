@@ -1,10 +1,830 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Sistema completo de análise de linguagem natural e demonstração de técnicas de NLP">
+    <meta name="keywords" content="nlp, processamento de linguagem natural, inteligência artificial, machine learning, linguística computacional">
+    <meta name="author" content="Seu Nome ou Organização">
+    <title>Sistema de IA - Processamento de Linguagem Natural</title>
 
+    <!-- Open Graph / Social Media -->
+    <meta property="og:title" content="Sistema de IA - Processamento de Linguagem Natural">
+    <meta property="og:description" content="Explore técnicas de NLP e análise de texto com IA">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://seusite.com/nlp">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- TensorFlow.js e modelos NLP -->
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@3.18.0/dist/tf.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/universal-sentence-encoder@1.3.3"></script>
+    <script src="https://cdn.jsdelivr.net/npm/compromise@14.6.2/builds/compromise.min.js"></script>
+
+    <style>
+        :root {
+            --primary-color: #007BFF;
+            --secondary-color: #0056b3;
+            --darker-blue: #003d7a;
+            --text-color: #333;
+            --light-bg: #f8f9fa;
+            --success-color: #28a745;
+            --danger-color: #dc3545;
+            --info-color: #17a2b8;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            padding-top: 56px;
+        }
+
+        .darker-card-header {
+            background-color: var(--darker-blue) !important;
+            color: white !important;
+        }
+
+        .interactive-section {
+            margin-top: 2rem;
+            padding: 1.5rem;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .bottom-border {
+            border-top: 3px solid var(--primary-color);
+            margin-top: 3rem;
+            padding: 1.5rem 0;
+            background-color: var(--light-bg);
+        }
+
+        .navbar {
+            background-color: var(--primary-color);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            padding: 0.5rem 1rem;
+        }
+
+        .navbar-brand, .nav-link {
+            color: white !important;
+            transition: all 0.3s ease;
+        }
+
+        .navbar-brand:hover, .nav-link:hover {
+            opacity: 0.9;
+            transform: translateY(-1px);
+        }
+
+        .concept-card {
+            transition: all 0.3s ease;
+            height: 100%;
+        }
+
+        .concept-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        .concept-icon {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        .demo-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+
+        .demo-panel {
+            background-color: white;
+            border-radius: 8px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .output-placeholder {
+            min-height: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: var(--light-bg);
+            border-radius: 8px;
+            color: #666;
+        }
+
+        .token {
+            display: inline-block;
+            background-color: rgba(0, 123, 255, 0.1);
+            padding: 0.25rem 0.5rem;
+            margin: 0.1rem;
+            border-radius: 4px;
+            font-family: monospace;
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+
+        .token:hover {
+            background-color: rgba(0, 123, 255, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .sentiment-bar {
+            height: 20px;
+            background: linear-gradient(to right, #ff4d4d, #ffcc00, #4CAF50);
+            border-radius: 10px;
+            margin: 1rem 0;
+            position: relative;
+        }
+
+        .sentiment-labels {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 0.5rem;
+        }
+
+        .loader {
+            border: 5px solid #f3f3f3;
+            border-top: 5px solid var(--primary-color);
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+
+        .progress {
+            background-color: #f0f0f0;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            transition: width 0.6s ease;
+        }
+
+        .table-responsive {
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .pos-tag {
+            font-size: 0.8em;
+            color: #666;
+            display: block;
+            margin-top: -3px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @media (max-width: 992px) {
+            .demo-container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .concepts-grid {
+                grid-template-columns: 1fr !important;
+            }
+        }
+
+        @media (max-width: 576px) {
+            body {
+                padding-top: 48px;
+            }
+            .navbar-brand {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+<header>
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="index.html">
+                <i class="fas fa-brain me-2"></i>Página Inicial
+            </a>
+            <div class="mx-2" style="border-left: 1px solid rgba(255,255,255,0.3); height: 30px;"></div>
+            <span class="nav-link active" style="background-color: #003d7a; color: white !important; border-radius: 5px; padding: 5px 10px; margin-right: 10px;">
+                <i class="fas fa-language me-1"></i>NLP
+            </span>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                            <i class="fas fa-info-circle me-1"></i>Sobre nós
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="SobreProjeto.html"><i class="fas fa-project-diagram me-2"></i>Projeto</a></li>
+                            <li><a class="dropdown-item" href="SobreGrupo.html"><i class="fas fa-users me-2"></i>Grupo</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                            <i class="fas fa-robot me-1"></i>Tipos de IA
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="RedeNeuralSimples.html"><i class="fas fa-network-wired me-2"></i>Rede Neural Simples</a></li>
+                            <li><a class="dropdown-item" href="#"><i class="fas fa-language me-2"></i>NLP</a></li>
+                            <li><a class="dropdown-item" href="#"><i class="fas fa-image me-2"></i>OCR</a></li>
+                            <li><a class="dropdown-item" href="#"><i class="fas fa-layer-group me-2"></i>MLP</a></li>
+                            <li><a class="dropdown-item" href="#"><i class="fas fa-exchange-alt me-2"></i>Transformers</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">
+                            <i class="fas fa-question-circle me-1"></i>Ajuda
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</header>
+
+<main class="container mt-4 pt-3">
+    <h1 class="text-center sr-only">Processamento de Linguagem Natural</h1>
+    <h2 class="text-center" aria-hidden="true">Processamento de Linguagem Natural (NLP)</h2>
+    <p class="text-center mb-4">Aprenda como os computadores entendem e processam a linguagem humana</p>
+
+    <!-- Seção de Conceitos Atualizada -->
+    <section class="mb-5">
+        <div class="card">
+            <div class="card-header darker-card-header">
+                <h3 class="mb-0">Técnicas de Processamento de Texto</h3>
+            </div>
+            <div class="card-body">
+                <div class="row g-4 concepts-grid">
+                    <!-- Card de Tokenização -->
+                    <div class="col-md-6 col-lg-3">
+                        <div class="card concept-card h-100">
+                            <div class="card-body text-center">
+                                <i class="fas fa-language concept-icon"></i>
+                                <h4>Tokenização</h4>
+                                <p class="mb-3">Processo de dividir um texto em unidades significativas menores chamadas tokens.</p>
+                                <div class="text-start small">
+                                    <ul class="list-unstyled">
+                                        <li><strong>Tipos:</strong></li>
+                                        <li>- Tokenização de palavras</li>
+                                        <li>- Tokenização de frases</li>
+                                        <li>- Tokenização subpalavras (BPE)</li>
+                                        <li><strong>Aplicações:</strong></li>
+                                        <li>- Pré-processamento para NLP</li>
+                                        <li>- Análise de frequência</li>
+                                        <li>- Construção de vocabulário</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Card de Análise de Sentimento -->
+                    <div class="col-md-6 col-lg-3">
+                        <div class="card concept-card h-100">
+                            <div class="card-body text-center">
+                                <i class="fas fa-comment-dots concept-icon"></i>
+                                <h4>Análise de Sentimento</h4>
+                                <p class="mb-3">Identificação e classificação de opiniões, emoções e avaliações em textos.</p>
+                                <div class="text-start small">
+                                    <ul class="list-unstyled">
+                                        <li><strong>Abordagens:</strong></li>
+                                        <li>- Baseada em léxico</li>
+                                        <li>- Machine Learning</li>
+                                        <li>- Deep Learning</li>
+                                        <li><strong>Métricas:</strong></li>
+                                        <li>- Polaridade (positivo/negativo)</li>
+                                        <li>- Intensidade emocional</li>
+                                        <li>- Análise de aspectos</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Card de Sumarização -->
+                    <div class="col-md-6 col-lg-3">
+                        <div class="card concept-card h-100">
+                            <div class="card-body text-center">
+                                <i class="fas fa-file-alt concept-icon"></i>
+                                <h4>Sumarização</h4>
+                                <p class="mb-3">Técnica para condensar o conteúdo de um texto preservando suas informações principais.</p>
+                                <div class="text-start small">
+                                    <ul class="list-unstyled">
+                                        <li><strong>Tipos:</strong></li>
+                                        <li>- Extrativa (seleção de frases)</li>
+                                        <li>- Abstrativa (geração de novo texto)</li>
+                                        <li><strong>Técnicas:</strong></li>
+                                        <li>- TF-IDF</li>
+                                        <li>- Redes neurais (Transformer)</li>
+                                        <li>- Algoritmos de ranking</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Card de Análise de Entidades -->
+                    <div class="col-md-6 col-lg-3">
+                        <div class="card concept-card h-100">
+                            <div class="card-body text-center">
+                                <i class="fas fa-tags concept-icon"></i>
+                                <h4>Análise de Entidades</h4>
+                                <p class="mb-3">Identificação e classificação de entidades nomeadas em textos não estruturados.</p>
+                                <div class="text-start small">
+                                    <ul class="list-unstyled">
+                                        <li><strong>Tipos de entidades:</strong></li>
+                                        <li>- Pessoas (PER)</li>
+                                        <li>- Locais (LOC)</li>
+                                        <li>- Organizações (ORG)</li>
+                                        <li>- Datas/Tempos (DATE)</li>
+                                        <li><strong>Técnicas:</strong></li>
+                                        <li>- CRF</li>
+                                        <li>- LSTM</li>
+                                        <li>- BERT</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Seção de Técnicas -->
+    <section class="mb-5">
+        <div class="card">
+            <div class="card-header darker-card-header">
+                <h3 class="mb-0">Técnicas Avançadas</h3>
+            </div>
+            <div class="card-body">
+                <div class="accordion" id="techniquesAccordion">
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="headingOne">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne">
+                                <i class="fas fa-exchange-alt me-2"></i> Transformers e BERT
+                            </button>
+                        </h2>
+                        <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#techniquesAccordion">
+                            <div class="accordion-body">
+                                <p>A arquitetura Transformer revolucionou o NLP com modelos como BERT, GPT e T5, permitindo compreensão contextual profunda através do mecanismo de atenção.</p>
+                                <img src="https://via.placeholder.com/800x300?text=Transformer+Architecture" alt="Arquitetura Transformer" class="img-fluid rounded">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="headingTwo">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo">
+                                <i class="fas fa-cube me-2"></i> Word Embeddings
+                            </button>
+                        </h2>
+                        <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#techniquesAccordion">
+                            <div class="accordion-body">
+                                <p>Representação de palavras como vetores densos em espaços multidimensionais, capturando relações semânticas entre termos. Técnicas populares incluem Word2Vec, GloVe e FastText.</p>
+                                <img src="https://via.placeholder.com/800x300?text=Word+Embeddings+Visualization" alt="Visualização de Word Embeddings" class="img-fluid rounded">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="headingThree">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree">
+                                <i class="fas fa-random me-2"></i> Sequence-to-Sequence
+                            </button>
+                        </h2>
+                        <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#techniquesAccordion">
+                            <div class="accordion-body">
+                                <p>Modelos que transformam sequências de entrada em sequências de saída, usados em tradução automática, sumarização e geração de texto. Frequentemente implementados com arquiteturas encoder-decoder.</p>
+                                <img src="https://via.placeholder.com/800x300?text=Seq2Seq+Model" alt="Modelo Sequence-to-Sequence" class="img-fluid rounded">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Seção de Demonstração Interativa -->
+    <section aria-labelledby="demo-heading" class="mb-5">
+        <div class="card">
+            <div class="card-header darker-card-header">
+                <h3 id="demo-heading" class="mb-0">Demonstração Interativa</h3>
+            </div>
+            <div class="card-body">
+                <div role="region" aria-live="polite" id="demo-region">
+                    <div class="demo-container">
+                        <div class="demo-panel">
+                            <h4><i class="fas fa-keyboard me-2"></i> Experimente nosso modelo de NLP</h4>
+
+                            <!-- Seletor de Idioma -->
+                            <select id="language-select" class="form-select mb-3">
+                                <option value="pt">Português</option>
+                                <option value="en">Inglês</option>
+                                <option value="es">Espanhol</option>
+                            </select>
+
+                            <textarea id="input-text" class="form-control mb-3" rows="6" placeholder="Digite um texto aqui para análise..."></textarea>
+                            <div class="d-flex gap-2">
+                                <select id="demo-function" class="form-select">
+                                    <option value="sentiment">Análise de Sentimento - Detecta emoções e polaridade no texto</option>
+                                    <option value="entities">Reconhecimento de Entidades - Identifica pessoas, lugares e organizações</option>
+                                    <option value="summary">Sumarização - Condensa o texto preservando informações-chave</option>
+                                    <option value="tokens">Tokenização - Divide o texto em unidades linguísticas</option>
+                                </select>
+                                <button id="process-btn" class="btn btn-primary flex-shrink-0">
+                                    <i class="fas fa-cog me-1"></i> Processar
+                                </button>
+                            </div>
+                        </div>
+                        <div class="demo-panel">
+                            <h4><i class="fas fa-chart-bar me-2"></i> Resultado</h4>
+                            <div id="output-result" class="output-placeholder">
+                                <p class="mb-0">O resultado aparecerá aqui...</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+
+<footer class="bottom-border text-center">
+    <p>© 2025 - Processamento de Linguagem Natural | Todos os direitos reservados</p>
+</footer>
+
+<!-- Modal de Carregamento -->
+<div class="modal fade" id="loadingModal" tabindex="-1" aria-hidden="true" data-bs-backdrop="static">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-body text-center py-4">
+                <div class="spinner-border text-primary mb-3" role="status">
+                    <span class="visually-hidden">Carregando...</span>
+                </div>
+                <h5>Processando texto...</h5>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Scripts -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', async function() {
+        const processBtn = document.getElementById('process-btn');
+        const inputText = document.getElementById('input-text');
+        const demoFunction = document.getElementById('demo-function');
+        const outputResult = document.getElementById('output-result');
+        const languageSelect = document.getElementById('language-select');
+
+        // Exemplos pré-definidos
+        const examples = {
+            "Análise de produto": "Adorei este produto! Funciona perfeitamente e chegou antes do prazo. Recomendo a todos.",
+            "Notícia política": "O presidente anunciou hoje novas medidas econômicas durante entrevista em Brasília.",
+            "Reclamação": "Estou muito insatisfeito com o atendimento. Prometeram resolver meu problema em 24h e já se passaram 3 dias."
+        };
+
+        // Carregar modelos (cache após primeira carga)
+        let nlpModel, useModel;
+
+        // Criar botões de exemplo
+        function createExampleButtons() {
+            const container = document.createElement('div');
+            container.className = 'mb-3';
+
+            const title = document.createElement('small');
+            title.className = 'd-block text-muted mb-2';
+            title.textContent = 'Experimente com:';
+
+            container.appendChild(title);
+
+            const div = document.createElement('div');
+            div.className = 'd-flex gap-2 flex-wrap';
+
+            Object.entries(examples).forEach(([label, text]) => {
+                const btn = document.createElement('button');
+                btn.className = 'btn btn-sm btn-outline-primary';
+                btn.textContent = label;
+                btn.onclick = () => {
+                    inputText.value = text;
+                    processBtn.click();
+                };
+                div.appendChild(btn);
+            });
+
+            container.appendChild(div);
+            inputText.parentNode.insertBefore(container, inputText.nextSibling);
+        }
+
+        createExampleButtons();
+
+        async function loadModels() {
+            try {
+                outputResult.innerHTML = '<div class="loader"></div><p class="text-muted mt-2">Carregando modelos de NLP...</p>';
+
+                // Carregar modelo de análise de sentimento (Universal Sentence Encoder)
+                useModel = await use.load();
+
+                // Carregar modelo de entidades (Compromise.js)
+                nlpModel = window.nlp;
+
+                return true;
+            } catch (error) {
+                console.error("Erro ao carregar modelos:", error);
+                outputResult.innerHTML = `
+                    <div class="alert alert-danger">
+                        Erro ao carregar modelos de NLP. Recarregue a página ou tente novamente mais tarde.
+                    </div>
+                `;
+                return false;
+            }
+        }
+
+        // Verificar se os modelos estão carregados
+        let modelsLoaded = false;
+
+        processBtn.addEventListener('click', async function() {
+            const text = inputText.value.trim();
+            const functionType = demoFunction.value;
+            const language = languageSelect.value;
+
+            if (!text) {
+                outputResult.innerHTML = '<div class="alert alert-warning">Por favor, digite algum texto para análise.</div>';
+                return;
+            }
+
+            // Carregar modelos na primeira execução
+            if (!modelsLoaded) {
+                modelsLoaded = await loadModels();
+                if (!modelsLoaded) return;
+            }
+
+            outputResult.innerHTML = '<div class="loader"></div><p class="text-muted mt-2">Processando texto...</p>';
+
+            try {
+                let result;
+
+                switch(functionType) {
+                    case 'sentiment':
+                        result = await analyzeSentiment(text);
+                        break;
+
+                    case 'entities':
+                        result = analyzeEntities(text);
+                        break;
+
+                    case 'summary':
+                        result = generateSummary(text);
+                        break;
+
+                    case 'tokens':
+                        result = tokenizeText(text);
+                        break;
+                }
+
+                outputResult.innerHTML = result;
+            } catch (error) {
+                console.error("Erro no processamento:", error);
+                outputResult.innerHTML = `
+                    <div class="alert alert-danger">
+                        Ocorreu um erro durante o processamento. Tente novamente com um texto diferente.
+                    </div>
+                `;
+            }
+        });
+
+        // Funções de análise melhoradas
+
+        async function analyzeSentiment(text) {
+            // Usar Universal Sentence Encoder para análise de sentimento
+            const embeddings = await useModel.embed(text);
+            const scores = await embeddings.array();
+
+            // Simples classificação baseada no embedding médio
+            // Na prática, você usaria um modelo classificador treinado
+            const avgScore = scores[0].reduce((a, b) => a + b, 0) / scores[0].length;
+            let sentiment, emoji, confidence;
+
+            if (avgScore > 0.15) {
+                sentiment = 'Positivo';
+                emoji = '😊';
+                confidence = Math.min(100, Math.round((avgScore - 0.15) * 300));
+            } else if (avgScore < -0.15) {
+                sentiment = 'Negativo';
+                emoji = '😕';
+                confidence = Math.min(100, Math.round((-avgScore - 0.15) * 300));
+            } else {
+                sentiment = 'Neutro';
+                emoji = '😐';
+                confidence = Math.round((1 - Math.abs(avgScore)) * 100);
+            }
+
+            return `
+                <div class="sentiment-result">
+                    <h5>Análise de Sentimento</h5>
+                    <p class="mb-3">"${truncateText(text, 100)}"</p>
+                    <div class="d-flex align-items-center mb-2">
+                        <span class="badge bg-primary rounded-pill me-2">${sentiment} ${emoji}</span>
+                        <small>Confiança: ${confidence}%</small>
+                    </div>
+                    <div class="progress" style="height: 20px;">
+                        <div class="progress-bar bg-success"
+                             style="width: ${50 + (avgScore * 50)}%;"
+                             role="progressbar"
+                             aria-valuenow="${50 + (avgScore * 50)}"
+                             aria-valuemin="0"
+                             aria-valuemax="100">
+                        </div>
+                    </div>
+                    <div class="sentiment-labels mt-2">
+                        <span>Negativo</span>
+                        <span>Neutro</span>
+                        <span>Positivo</span>
+                    </div>
+                    <div class="mt-3">
+                        <small class="text-muted">Análise baseada em embeddings semânticos.</small>
+                    </div>
+                </div>
+            `;
+        }
+
+        function analyzeEntities(text) {
+            // Usar Compromise.js para reconhecimento de entidades
+            const doc = nlpModel(text);
+
+            const people = doc.people().out('array');
+            const places = doc.places().out('array');
+            const organizations = doc.organizations().out('array');
+            const dates = doc.dates().out('array');
+
+            const entities = [
+                ...people.map(p => ({ text: p, type: "PESSOA" })),
+                ...places.map(p => ({ text: p, type: "LOCAL" })),
+                ...organizations.map(o => ({ text: o, type: "ORGANIZAÇÃO" })),
+                ...dates.map(d => ({ text: d, type: "DATA" }))
+            ];
+
+            if (entities.length === 0) {
+                return '<div class="alert alert-info">Nenhuma entidade reconhecida no texto.</div>';
+            }
+
+            // Contar ocorrências
+            const entityCounts = entities.reduce((acc, entity) => {
+                const key = `${entity.text.toLowerCase()}|${entity.type}`;
+                acc[key] = (acc[key] || 0) + 1;
+                return acc;
+            }, {});
+
+            // Remover duplicados
+            const uniqueEntities = Object.keys(entityCounts).map(key => {
+                const [text, type] = key.split('|');
+                return {
+                    text,
+                    type,
+                    count: entityCounts[key]
+                };
+            });
+
+            return `
+                <h5>Entidades Reconhecidas</h5>
+                <div class="table-responsive">
+                    <table class="table table-sm">
+                        <thead>
+                            <tr>
+                                <th>Entidade</th>
+                                <th>Tipo</th>
+                                <th>Ocorrências</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${uniqueEntities.map(entity => `
+                                <tr>
+                                    <td>${capitalizeFirstLetter(entity.text)}</td>
+                                    <td><span class="badge bg-secondary">${entity.type}</span></td>
+                                    <td>${entity.count}</td>
+                                </tr>
+                            `).join('')}
+                        </tbody>
+                    </table>
+                </div>
+                <div class="mt-2">
+                    <small class="text-muted">Reconhecimento baseado em regras linguísticas.</small>
+                </div>
+            `;
+        }
+
+        function generateSummary(text) {
+            // Algoritmo simples de sumarização baseado em frases importantes
+            const sentences = text.split(/[.!?]+/).filter(s => s.trim().length > 0);
+
+            if (sentences.length <= 1) {
+                return `
+                    <div class="alert alert-info">
+                        O texto é muito curto para sumarização. Aqui está o texto original:
+                        <p class="mt-2">${text}</p>
+                    </div>
+                `;
+            }
+
+            // Pontuar frases (simples - na prática use TF-IDF ou Transformers)
+            const scoredSentences = sentences.map(sentence => {
+                const words = sentence.trim().split(/\s+/);
+                const lengthScore = Math.min(words.length / 10, 1); // Preferir frases médias
+                const keywordScore = sentence.match(/(importante|significativ|conclus|portanto)/i) ? 0.5 : 0;
+                return {
+                    text: sentence.trim(),
+                    score: lengthScore + keywordScore
+                };
+            });
+
+            // Ordenar por pontuação
+            scoredSentences.sort((a, b) => b.score - a.score);
+
+            // Selecionar as melhores frases (20-30% do original)
+            const summaryLength = Math.max(1, Math.ceil(sentences.length * 0.3));
+            const summarySentences = scoredSentences.slice(0, summaryLength);
+
+            // Reordenar para manter a sequência original
+            summarySentences.sort((a, b) =>
+                sentences.indexOf(a.text) - sentences.indexOf(b.text));
+
+            const summary = summarySentences.map(s => s.text).join('. ') + '.';
+
+            return `
+                <h5>Resumo do Texto</h5>
+                <div class="alert alert-light">
+                    <p>${summary}</p>
+                </div>
+                <div class="d-flex justify-content-between text-muted">
+                    <small>Original: ${text.split(/\s+/).length} palavras, ${sentences.length} frases</small>
+                    <small>Resumo: ${summary.split(/\s+/).length} palavras, ${summarySentences.length} frases</small>
+                </div>
+                <div class="mt-2">
+                    <small class="text-muted">Sumarização baseada em extração de frases importantes.</small>
+                </div>
+            `;
+        }
+
+        function tokenizeText(text) {
+            // Tokenização mais sofisticada com Compromise.js
+            const doc = nlpModel(text);
+            const tokens = doc.terms().out('array');
+            const uniqueTokens = [...new Set(tokens.map(t => t.toLowerCase()))];
+
+            // Análise morfológica simples
+            const posTags = doc.terms().out('tags');
+            const posCounts = posTags.reduce((acc, tag) => {
+                const mainTag = tag.split('/')[0];
+                acc[mainTag] = (acc[mainTag] || 0) + 1;
+                return acc;
+            }, {});
+
+            return `
+                <h5>Análise Tokenizada</h5>
+                <div class="d-flex justify-content-between mb-3">
+                    <span class="badge bg-primary">Tokens: ${tokens.length}</span>
+                    <span class="badge bg-secondary">Únicos: ${uniqueTokens.length}</span>
+                </div>
+
+                <h6 class="mt-4">Distribuição Gramatical</h6>
+                <div class="mb-3">
+                    ${Object.entries(posCounts).map(([tag, count]) => `
+                        <span class="badge bg-info me-1 mb-1">${tag}: ${count}</span>
+                    `).join('')}
+                </div>
+
+                <h6 class="mt-4">Tokens</h6>
+                <div class="tokens-container bg-light p-3 rounded">
+                    ${tokens.map(token => `<span class="token">${token}</span>`).join('')}
+                </div>
+
+                <div class="mt-3">
+                    <small class="text-muted">Tokenização e análise morfológica baseada em regras linguísticas.</small>
+                </div>
+            `;
+        }
+
+        // Funções auxiliares
+        function truncateText(text, maxLength) {
+            return text.length > maxLength ? text.substring(0, maxLength) + '...' : text;
+        }
+
+        function capitalizeFirstLetter(string) {
+            return string.charAt(0).toUpperCase() + string.slice(1);
+        }
+    });
+</script>
 </body>
 </html>
